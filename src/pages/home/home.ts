@@ -13,4 +13,8 @@ export class HomePage {
   }
 
   clockedIn = false;
+
+  toggleIn() {
+    this.clockedIn = !this.clockedIn;
+  }
 }
