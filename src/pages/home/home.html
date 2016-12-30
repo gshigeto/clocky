@@ -10,7 +10,7 @@
   <div *ngIf="!clockedIn" class="center"><h1>Clocked OUT</h1></div>
   <div *ngIf="clockedIn" class="center"><h1>Clocked IN</h1></div>
   <br>
-  <div [ngClass]="{'pulse': clockedIn, 'rubberBand': !clockedIn}" class="animated center button-wrap">
+  <div [ngClass]="{'tada': clockedIn, 'rubberBand': !clockedIn}" class="animated center button-wrap">
     <button *ngIf="!clockedIn" (tap)="toggleIn()" ion-button color="secondary">Clock In</button>
     <button *ngIf="clockedIn" (tap)="toggleIn()" ion-button color="danger">Clock Out</button>
   </div>
