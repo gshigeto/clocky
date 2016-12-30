@@ -16,7 +16,6 @@ export class Sql {
 
   initializeDB(): Promise<boolean> {
     let promise = new Promise((resolve, reject) => {
-      resolve(true);
       SQLite.openDatabase({
         name: '__ionicstorage',
         location: 'default'
@@ -28,12 +27,16 @@ export class Sql {
                     in TEXT,
                     out TEXT)`)
             .catch(err => {
+              reject();
               console.error('Storage: Unable to create initial storage tables', err.tx, err.err);
             });
           this.query('CREATE TABLE IF NOT EXISTS kv (key text primary key, value text)').catch(err => {
+            reject();
             console.error('Storage: Unable to create initial storage tables', err.tx, err.err);
           });
+          resolve(true);
         }).catch(error => {
+          reject();
           console.error('Error openening database', error);
         });
     });
