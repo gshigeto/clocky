@@ -1,14 +1,17 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Clocky
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <div *ngIf="!clockedIn" class="center">Get to work, buddy!</div>
+  <div *ngIf="clockedIn" class="center">Keep up the good work!</div>
+  <br>
+  <div class="center button-wrap">
+    <button *ngIf="!clockedIn" (tap)="clockedIn = !clockedIn" ion-button color="secondary">Clock In</button>
+    <button *ngIf="clockedIn" (tap)="clockedIn = !clockedIn" ion-button color="danger">Clock Out</button>
+  </div>
 </ion-content>
