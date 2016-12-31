@@ -1,5 +1,13 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons left>
+      <div *ngIf="google.user().email" (tap)="confirmLogout()">
+        <img class="profile-photo" src="{{google.user().imageUrl}}" alt="Profile Photo">
+      </div>
+      <button *ngIf="!google.user().email" ion-button icon-only (tap)="google.login()">
+        <ion-icon name="logo-googleplus"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
       Clocky
     </ion-title>

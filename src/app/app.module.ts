@@ -4,7 +4,15 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HistoryPage } from '../pages/history/history';
 
-import { Sql } from '../providers'
+import { Google, Sql } from '../providers'
+
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '620d8363'
+  }
+}
 
 @NgModule({
   declarations: [
@@ -13,7 +21,8 @@ import { Sql } from '../providers'
     HistoryPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -23,6 +32,7 @@ import { Sql } from '../providers'
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Google,
     Sql
   ]
 })
