@@ -66,4 +66,36 @@ export class Sql {
       }
     });
   }
+
+  /**
+   * Get the value in the database identified by the given key.
+   * @param {string} key the key
+   * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
+   */
+  get(key: string): Promise<any> {
+    return this.query('SELECT key, value FROM kv WHERE key = ? limit 1', [key]).then(data => {
+      if (data.res.rows.length > 0) {
+        return data.res.rows.item(0).value;
+      }
+    });
+  }
+
+  /**
+   * Set the value in the database for the given key. Existing values will be overwritten.
+   * @param {string} key the key
+   * @param {string} value The value (as a string)
+   * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
+   */
+  set(key: string, value: string): Promise<any> {
+    return this.query('INSERT OR REPLACE INTO kv(key, value) VALUES (?, ?)', [key, value]);
+  }
+
+  /**
+   * Remove the value in the database for the given key.
+   * @param {string} key the key
+   * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
+   */
+  remove(key: string): Promise<any> {
+    return this.query('DELETE FORM kv WHERE key = ?', [key]);
+  }
 }
