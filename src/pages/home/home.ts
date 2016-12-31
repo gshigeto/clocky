@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavController } from 'ionic-angular';
+
+import { HistoryPage } from '../history/history';
 
 @Component({
   selector: 'page-home',
@@ -8,13 +9,22 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
-
-  }
+  constructor(public nav: NavController) {}
 
   clockedIn = false;
 
   toggleIn() {
     this.clockedIn = !this.clockedIn;
+  }
+
+  public navigate(page: string) {
+    switch(page) {
+      case 'home':
+        this.nav.setRoot(HomePage);
+        break;
+      case 'history':
+        this.nav.push(HistoryPage);
+        break;
+    }
   }
 }
