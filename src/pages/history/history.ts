@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { Sql } from '../../providers'
+import { Shift } from '../../models'
 
 /*
   Generated class for the History page.
@@ -13,10 +14,26 @@ import { NavParams } from 'ionic-angular';
 })
 export class HistoryPage {
 
-  constructor(public navParams: NavParams) {}
+  shifts: Shift[];
+  constructor(public sql: Sql) {
+    this.shifts = [];
+  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HistoryPage');
+  ionViewWillEnter() {
+    this.sql.query(`SELECT * FROM shift`).then((response) => {
+      for (let i = 0; i < response.res.rows.length; i++) {
+        this.shifts.push(this.historyItem(response.res.rows.item(i)))
+      }
+      response.res.rows.item()
+    });
+  }
+
+  historyItem(item) {
+    return {
+      id: item.id,
+      clockIn: item.clockIn,
+      clockOut: item.clockOut || null
+    }
   }
 
 }

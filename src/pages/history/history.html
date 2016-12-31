@@ -13,6 +13,16 @@
 </ion-header>
 
 
-<ion-content padding>
-  <h1>History Page</h1>
+<ion-content>
+  <div *ngIf="shifts.length === 0" text-center>
+    <p>Get started by clocking in!</p>
+  </div>
+  <ion-list *ngIf="shifts.length > 0">
+    <ion-item *ngFor="let shift of shifts">
+      <h2>{{shift.clockIn | date: 'M/dd/y'}}</h2>
+      <p>{{shift.clockIn | date: 'h:mm:ss a'}} - {{shift.clockOut | date: 'h:mm:ss a'}}</p>
+      <ion-note *ngIf="!shift.clockOut" item-right>Missing Out</ion-note>
+      <ion-note *ngIf="shift.clockOut" item-right>Total: {{(shift.clockOut - shift.clockIn) / 3600000}} Hours</ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>
