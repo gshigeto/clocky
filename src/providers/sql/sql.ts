@@ -24,15 +24,15 @@ export class Sql {
           this._db = db;
           this.query(`CREATE TABLE IF NOT EXISTS shift (
                     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    in TEXT,
-                    out TEXT)`)
+                    clockIn TEXT,
+                    clockOut TEXT)`)
             .catch(err => {
               reject();
-              console.error('Storage: Unable to create initial storage tables', err.tx, err.err);
+              console.error('Storage: Unable to create initial storage tables', JSON.stringify(err.tx), JSON.stringify(err.err));
             });
-          this.query('CREATE TABLE IF NOT EXISTS kv (key text primary key, value text)').catch(err => {
+          this.query('CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT)').catch(err => {
             reject();
-            console.error('Storage: Unable to create initial storage tables', err.tx, err.err);
+            console.error('Storage: Unable to create initial storage tables', JSON.stringify(err.tx), JSON.stringify(err.err));
           });
           resolve(true);
         }).catch(error => {
