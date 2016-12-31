@@ -96,6 +96,6 @@ export class Sql {
    * @return {Promise} that resolves or rejects with an object of the form { tx: Transaction, res: Result (or err)}
    */
   remove(key: string): Promise<any> {
-    return this.query('DELETE FORM kv WHERE key = ?', [key]);
+    return this.query('DELETE FROM kv WHERE key = ?', [key]);
   }
 }
