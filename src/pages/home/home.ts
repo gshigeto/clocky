@@ -32,10 +32,13 @@ export class HomePage {
   confirmLogout() {
     let confirm = this.alertCtrl.create({
       title: 'Logout of Google?',
-      message: `Do you want to logout of ${this.google.user().displayName}'s accont?`,
+      message: `Do you want to log out of ${this.google.user().displayName}'s account?`,
       buttons: [
         {
-          text: 'Cancel'
+          text: 'Cancel',
+          handler: () => {
+            console.log('Did not log out');
+          }
         },
         {
           text: 'Logout',
