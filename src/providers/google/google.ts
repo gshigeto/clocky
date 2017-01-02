@@ -15,7 +15,7 @@ const CLIENT_ID: string = '31810046095-3bh1fa9sfp8s87noq9jd3882mjmcnvq3.apps.goo
 @Injectable()
 export class Google {
 
-  currUser: User;
+  private currUser: User;
   constructor() {
     this.clearUser();
   }
@@ -40,6 +40,7 @@ export class Google {
       this.currUser.imageUrl = res.imageUrl;
       this.currUser.idToken = res.idToken;
       this.currUser.serverAuthCode = res.serverAuthCode;
+      this.currUser.accessToken = res.accessToken;
     });
   }
 
@@ -58,6 +59,7 @@ export class Google {
         this.currUser.imageUrl = res.imageUrl;
         this.currUser.idToken = res.idToken;
         this.currUser.serverAuthCode = res.serverAuthCode;
+        this.currUser.accessToken = res.accessToken;
         resolve(true);
       }).catch(err => {
         reject();
@@ -73,7 +75,8 @@ export class Google {
       displayName: null,
       imageUrl: null,
       idToken: null,
-      serverAuthCode: null
+      serverAuthCode: null,
+      accessToken: null
     }
   }
 

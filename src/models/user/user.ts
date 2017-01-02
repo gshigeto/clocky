@@ -5,4 +5,5 @@ export interface User {
   imageUrl: string;
   idToken: string;
   serverAuthCode: string;
+  accessToken: string;
 }
