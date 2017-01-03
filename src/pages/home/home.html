@@ -20,11 +20,11 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!clockedIn" class="center"><h1>Clocked OUT</h1></div>
-  <div *ngIf="clockedIn" class="center"><h1>Clocked IN</h1></div>
+  <div *ngIf="!shift.clockedIn" class="center"><h1>Clocked OUT</h1></div>
+  <div *ngIf="shift.clockedIn" class="center"><h1>Clocked IN</h1></div>
   <br>
-  <div [ngClass]="{'tada': clockedIn, 'rubberBand': !clockedIn}" class="animated center button-wrap">
-    <button *ngIf="!clockedIn" (tap)="toggleIn()" ion-button color="secondary">Clock In</button>
-    <button *ngIf="clockedIn" (tap)="toggleIn()" ion-button color="danger">Clock Out</button>
+  <div [ngClass]="{'tada': shift.clockedIn, 'rubberBand': !shift.clockedIn}" class="animated center button-wrap">
+    <button *ngIf="!shift.clockedIn" (tap)="shift.toggle()" ion-button color="secondary">Clock In</button>
+    <button *ngIf="shift.clockedIn" (tap)="shift.toggle()" ion-button color="danger">Clock Out</button>
   </div>
 </ion-content>

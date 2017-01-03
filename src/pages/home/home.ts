@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 
 import { HistoryPage } from '../history/history';
-import { Google } from '../../providers';
+import { Google, Shift } from '../../providers';
 
 @Component({
   selector: 'page-home',
@@ -10,13 +10,7 @@ import { Google } from '../../providers';
 })
 export class HomePage {
 
-  constructor(public nav: NavController, public google: Google, public alertCtrl: AlertController) {}
-
-  clockedIn = false;
-
-  toggleIn() {
-    this.clockedIn = !this.clockedIn;
-  }
+  constructor(public nav: NavController, public google: Google, public shift: Shift, public alertCtrl: AlertController) {}
 
   public navigate(page: string) {
     switch(page) {
