@@ -6,4 +6,5 @@ export interface User {
   idToken: string;
   serverAuthCode: string;
   accessToken: string;
+  refreshToken: string;
 }

@@ -41,6 +41,7 @@ export class Google {
       this.currUser.idToken = res.idToken;
       this.currUser.serverAuthCode = res.serverAuthCode;
       this.currUser.accessToken = res.accessToken;
+      this.currUser.refreshToken = res.refreshToken;
     });
   }
 
@@ -60,6 +61,7 @@ export class Google {
         this.currUser.idToken = res.idToken;
         this.currUser.serverAuthCode = res.serverAuthCode;
         this.currUser.accessToken = res.accessToken;
+        this.currUser.refreshToken = res.refreshToken;
         resolve(true);
       }).catch(err => {
         reject();
@@ -76,7 +78,8 @@ export class Google {
       imageUrl: null,
       idToken: null,
       serverAuthCode: null,
-      accessToken: null
+      accessToken: null,
+      refreshToken: null
     }
   }
 
