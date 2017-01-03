@@ -34,7 +34,10 @@ export class Shift {
     this.sql.query('INSERT INTO shift(clockIn) VALUES(?)', [now]).then(resp => {
       this.shiftId = resp.res.insertId;
       this.sql.set('shiftId', this.shiftId.toString());
-      this.clock('in', JSON.stringify(now));
+      this.sql.get('sheetId').then(id => {
+        id = id || -1;
+        this.clock(`in/${id}`, JSON.stringify(now));
+      })
     })
   }
 
@@ -43,7 +46,10 @@ export class Shift {
     this.sql.query(`UPDATE shift SET clockOut = ? WHERE id = ?`, [now, this.shiftId]).then(resp => {
       this.sql.remove('shiftId');
       this.shiftId = -1;
-      this.clock('out', JSON.stringify(now));
+      this.sql.get('sheetId').then(id => {
+        id = id || -1;
+        this.clock(`out/${id}`, JSON.stringify(now));
+      })
     })
   }
 
@@ -65,7 +71,7 @@ export class Shift {
       });
       let options = new RequestOptions({headers: headers});
       this.http.post(`https://23e5577e.ngrok.io/${type}`, body, options).subscribe(resp => {
-        console.log(JSON.stringify(resp));
+        this.sql.set('sheetId', resp.json().docId);
       })
     }
   }
