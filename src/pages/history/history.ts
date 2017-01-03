@@ -1,3 +1,4 @@
+import { NavController, AlertController, ItemSliding } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { Sql } from '../../providers'
 import { Shift } from '../../models'
@@ -15,7 +16,7 @@ import { Shift } from '../../models'
 export class HistoryPage {
 
   shifts: Shift[];
-  constructor(public sql: Sql) {
+  constructor(public sql: Sql, nav: NavController, public alertCtrl: AlertController) {
     this.shifts = [];
   }
 
@@ -34,6 +35,36 @@ export class HistoryPage {
       clockIn: item.clockIn,
       clockOut: item.clockOut || null
     }
+  }
+
+  confirmDelete(id: string, item: ItemSliding) {
+    let confirm = this.alertCtrl.create({
+      title: 'Delete this Shift?',
+      message: `Do you want to delete this shift?`,
+      buttons: [
+        {
+          text: 'Keep',
+          handler: () => {
+            item.close();
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            console.log('Deleted shift.');
+            this.sql.query('DELETE FROM shift WHERE id=?', [id]).then(() => {
+              for (let i = 0; i < this.shifts.length; i++) {
+                if (id == this.shifts[i].id) {
+                  this.shifts.splice(i, 1);
+                  break;
+                }
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

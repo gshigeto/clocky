@@ -18,10 +18,18 @@
     <p>Get started by clocking in!</p>
   </div>
   <ion-list *ngIf="shifts.length > 0">
-    <ion-item *ngFor="let shift of shifts">
-      <h2>{{shift.clockIn | date: 'MM/dd/y'}}</h2>
-      <p>{{shift.clockIn | date: 'h:mm:ss a'}} - {{shift.clockOut | date: 'h:mm:ss a'}}</p>
-      <ion-note item-right>{{shift | duration}}</ion-note>
-    </ion-item>
+    <ion-item-sliding #slidingItem *ngFor="let shift of shifts">
+
+      <ion-item>
+        <h2>{{shift.clockIn | date: 'MM/dd/y'}}</h2>
+        <p>{{shift.clockIn | date: 'h:mm:ss a'}} - {{shift.clockOut | date: 'h:mm:ss a'}}</p>
+        <ion-note item-right>{{shift | duration}}</ion-note>
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="danger" (tap)="confirmDelete(shift.id, slidingItem)"><ion-icon name="trash"></ion-icon> Delete</button>
+      </ion-item-options>
+
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
