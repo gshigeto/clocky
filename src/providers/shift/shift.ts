@@ -20,6 +20,11 @@ export class Shift {
 
   }
 
+  set(clockedIn: boolean, shiftId: number = 0) {
+    this.clockedIn = clockedIn;
+    this.shiftId = shiftId;
+  }
+
   toggle() {
     this.clockedIn = !this.clockedIn
     if (this.clockedIn) {
@@ -53,9 +58,8 @@ export class Shift {
     })
   }
 
-  set(clockedIn: boolean, shiftId: number = 0) {
-    this.clockedIn = clockedIn;
-    this.shiftId = shiftId;
+  createNewSpreadsheet() {
+    this.clock(`spreadsheet/create`, null);
   }
 
   clock(type: string, now: string) {
@@ -70,7 +74,7 @@ export class Shift {
         'Content-Type': 'application/json'
       });
       let options = new RequestOptions({headers: headers});
-      this.http.post(`https://23e5577e.ngrok.io/${type}`, body, options).subscribe(resp => {
+      this.http.post(`https://035d99df.ngrok.io/${type}`, body, options).subscribe(resp => {
         this.sql.set('sheetId', resp.json().docId);
       })
     }
