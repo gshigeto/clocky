@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 import { Google } from '../google/google';
 import { Sql } from '../sql/sql';
 
+const API_BASE_URL = 'http://api.clockyapp.com';
+
 /*
   Generated class for the Shift provider.
 
@@ -74,7 +76,7 @@ export class Shift {
         'Content-Type': 'application/json'
       });
       let options = new RequestOptions({headers: headers});
-      this.http.post(`https://035d99df.ngrok.io/${type}`, body, options).subscribe(resp => {
+      this.http.post(`${API_BASE_URL}/${type}`, body, options).subscribe(resp => {
         this.sql.set('sheetId', resp.json().docId);
       })
     }
