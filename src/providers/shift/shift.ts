@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { Google } from '../google/google';
 import { Sql } from '../sql/sql';
+import { Shift } from '../../models';
 
 const API_BASE_URL = 'http://api.clockyapp.com';
 
@@ -14,9 +15,10 @@ const API_BASE_URL = 'http://api.clockyapp.com';
   for more info on providers and Angular 2 DI.
 */
 @Injectable()
-export class Shift {
+export class ShiftService {
 
   clockedIn: boolean = false;
+  alwaysUpload: boolean = false;
   shiftId: number = -1;
   constructor(public http: Http, public sql: Sql, public google: Google) {
 
@@ -60,25 +62,63 @@ export class Shift {
     })
   }
 
-  createNewSpreadsheet() {
-    this.clock(`spreadsheet/create`, null);
+  exportTimesheet() {
+    this.sql.query(`SELECT * FROM shift`).then(resp => {
+      let shifts: Shift[] = [];
+      for (let i = 0; i < resp.res.rows.length; i++) {
+        shifts.push(this.shiftItem(resp.res.rows.item(i)))
+      }
+      this.export(shifts);
+    });
   }
 
-  clock(type: string, now: string) {
-    if (this.google.user().accessToken) {
+  createNewSpreadsheet() {
+    this.clock(`spreadsheet/create`);
+  }
+
+  clock(type: string, now: string = null) {
+    if (this.google.user().accessToken && this.alwaysUpload) {
       let body = JSON.stringify({
         timestamp: now,
         access_token: this.google.user().accessToken,
         refresh_token: this.google.user().refreshToken,
         token_type: 'Bearer'
       });
-      let headers = new Headers({
-        'Content-Type': 'application/json'
-      });
-      let options = new RequestOptions({headers: headers});
-      this.http.post(`${API_BASE_URL}/${type}`, body, options).subscribe(resp => {
+      this.http.post(`${API_BASE_URL}/${type}`, body, this.options()).subscribe(resp => {
         this.sql.set('sheetId', resp.json().docId);
       })
+    }
+  }
+
+  export(shifts: Shift[]) {
+    if (this.google.user().accessToken) {
+      let body = JSON.stringify({
+        shifts: shifts,
+        access_token: this.google.user().accessToken,
+        refresh_token: this.google.user().refreshToken,
+        token_type: 'Bearer'
+      });
+      this.sql.get('sheetId').then(id => {
+        id = id || -1;
+        this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options()).subscribe(resp => {
+          this.sql.set('sheetId', resp.json().docId);
+        })
+      })
+    }
+  }
+
+  options() {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    return new RequestOptions({headers: headers});
+  }
+
+  shiftItem(item) {
+    return {
+      id: item.id,
+      clockIn: item.clockIn,
+      clockOut: item.clockOut || null
     }
   }
 

@@ -1,6 +1,6 @@
 import { NavController, AlertController, ItemSliding } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { Sql } from '../../providers'
+import { Sql, ShiftService } from '../../providers'
 import { Shift } from '../../models'
 
 /*
@@ -16,7 +16,7 @@ import { Shift } from '../../models'
 export class HistoryPage {
 
   shifts: Shift[];
-  constructor(public sql: Sql, nav: NavController, public alertCtrl: AlertController) {
+  constructor(public sql: Sql, nav: NavController, public shift: ShiftService, public alertCtrl: AlertController) {
     this.shifts = [];
   }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 
 import { HistoryPage } from '../history/history';
-import { Google, Shift } from '../../providers';
+import { Google, ShiftService } from '../../providers';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +10,7 @@ import { Google, Shift } from '../../providers';
 })
 export class HomePage {
 
-  constructor(public nav: NavController, public google: Google, public shift: Shift, public alertCtrl: AlertController) {}
+  constructor(public nav: NavController, public google: Google, public shift: ShiftService, public alertCtrl: AlertController) {}
 
   public navigate(page: string) {
     switch(page) {
