@@ -17,9 +17,9 @@ export class Duration {
    */
   transform(shift: Shift) {
     if (shift.clockOut) {
-      let hrs = ((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 3600000).toFixed(0);
-      let mins = (((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 60000) % 60).toFixed(0);
-      let secs = (((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 1000) % 60).toFixed(0);
+      let hrs = Math.floor((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 3600000);
+      let mins = Math.floor(((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 60000) % 60);
+      let secs = Math.floor(((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 1000) % 60);
       return `${hrs}H ${mins}M ${secs}S`;
     }
     return 'MISSING OUT';
