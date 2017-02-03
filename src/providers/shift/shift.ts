@@ -4,9 +4,10 @@ import 'rxjs/add/operator/map';
 
 import { Google } from '../google/google';
 import { Sql } from '../sql/sql';
+import { Toast } from '../toast/toast';
 import { Shift } from '../../models';
 
-const API_BASE_URL = 'http://api.clockyapp.com';
+const API_BASE_URL = 'http://api.theclocky.com';
 
 /*
   Generated class for the Shift provider.
@@ -20,7 +21,7 @@ export class ShiftService {
   clockedIn: boolean = false;
   alwaysUpload: boolean = false;
   shiftId: number = -1;
-  constructor(public http: Http, public sql: Sql, public google: Google) {
+  constructor(public http: Http, public sql: Sql, public toast: Toast, public google: Google) {
 
   }
 
@@ -101,7 +102,10 @@ export class ShiftService {
       this.sql.get('sheetId').then(id => {
         id = id || -1;
         this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options()).subscribe(resp => {
-          this.sql.set('sheetId', resp.json().docId);
+          if (resp.status == 200) {
+            this.toast.showToast('Successfully exported to Sheets!');
+            this.sql.set('sheetId', resp.json().docId);
+          }
         })
       })
     }
