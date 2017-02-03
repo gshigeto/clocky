@@ -3,7 +3,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HistoryPage } from '../pages/history/history';
-import { Google, ShiftService, Sql } from '../providers';
+import { Google, ShiftService, Sql, Toast } from '../providers';
 import { Duration } from '../pipes';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
@@ -35,7 +35,8 @@ const cloudSettings: CloudSettings = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Google,
     ShiftService,
-    Sql
+    Sql,
+    Toast
   ]
 })
 export class AppModule {}
