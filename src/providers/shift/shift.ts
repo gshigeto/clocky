@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { LoadingController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 import { Google } from '../google/google';
@@ -21,7 +22,7 @@ export class ShiftService {
   clockedIn: boolean = false;
   alwaysUpload: boolean = false;
   shiftId: number = -1;
-  constructor(public http: Http, public sql: Sql, public toast: Toast, public google: Google) {
+  constructor(public http: Http, public sql: Sql, public toast: Toast, public google: Google, public loadingCtrl: LoadingController) {
 
   }
 
@@ -93,6 +94,10 @@ export class ShiftService {
 
   export(shifts: Shift[]) {
     if (this.google.user().accessToken) {
+      let loader = this.loadingCtrl.create({
+        content: "Uploading to Sheets..."
+      });
+      loader.present();
       let body = JSON.stringify({
         shifts: shifts,
         access_token: this.google.user().accessToken,
@@ -102,6 +107,7 @@ export class ShiftService {
       this.sql.get('sheetId').then(id => {
         id = id || -1;
         this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options()).subscribe(resp => {
+          loader.dismiss();
           if (resp.status == 200) {
             this.toast.showToast('Successfully exported to Sheets!');
             this.sql.set('sheetId', resp.json().docId);
