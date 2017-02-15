@@ -8,6 +8,8 @@ import { Sql } from '../sql/sql';
 import { Toast } from '../toast/toast';
 import { Shift } from '../../models';
 
+import * as moment from 'moment';
+
 const API_BASE_URL = 'http://api.theclocky.com';
 
 /*
@@ -41,7 +43,7 @@ export class ShiftService {
   }
 
   clockIn() {
-    let now = new Date().getTime();
+    let now = moment().format();
     this.sql.query('INSERT INTO shift(clockIn) VALUES(?)', [now]).then(resp => {
       this.shiftId = resp.res.insertId;
       this.sql.set('shiftId', this.shiftId.toString());
@@ -53,7 +55,7 @@ export class ShiftService {
   }
 
   clockOut() {
-    let now = new Date().getTime();
+    let now = moment().format();
     this.sql.query(`UPDATE shift SET clockOut = ? WHERE id = ?`, [now, this.shiftId]).then(resp => {
       this.sql.remove('shiftId');
       this.shiftId = -1;

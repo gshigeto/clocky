@@ -1,6 +1,8 @@
 import { Injectable, Pipe } from '@angular/core';
 import { Shift } from '../../models';
 
+import * as moment from 'moment';
+
 /*
   Generated class for the Duration pipe.
 
@@ -17,10 +19,8 @@ export class Duration {
    */
   transform(shift: Shift) {
     if (shift.clockOut) {
-      let hrs = Math.floor((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 3600000);
-      let mins = Math.floor(((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 60000) % 60);
-      let secs = Math.round(((parseInt(shift.clockOut) - parseInt(shift.clockIn)) / 1000) % 60);
-      return `${hrs}H ${mins}M ${secs}S`;
+      let dur = moment.duration(moment(shift.clockOut).diff(moment(shift.clockIn)));
+      return `${dur.hours()}H ${dur.minutes()}M ${dur.seconds()}S`;
     }
     return 'MISSING OUT';
   }
