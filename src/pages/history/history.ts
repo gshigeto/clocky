@@ -25,7 +25,6 @@ export class HistoryPage {
       for (let i = 0; i < response.res.rows.length; i++) {
         this.shifts.push(this.historyItem(response.res.rows.item(i)))
       }
-      response.res.rows.item()
     });
   }
 
@@ -51,7 +50,6 @@ export class HistoryPage {
         {
           text: 'Delete',
           handler: () => {
-            console.log('Deleted shift.');
             this.sql.query('DELETE FROM shift WHERE id=?', [id]).then(() => {
               for (let i = 0; i < this.shifts.length; i++) {
                 if (id == this.shifts[i].id) {
