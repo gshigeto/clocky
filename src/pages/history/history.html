@@ -32,7 +32,7 @@
       </ion-item>
 
       <ion-item-options>
-        <button ion-button color="danger" (click)="confirmDelete(shift.id, slidingItem)"><ion-icon name="trash"></ion-icon> Delete</button>
+        <button ion-button color="danger" (click)="confirmDelete(shift.id, slidingItem)" *ngIf="shift.clockOut"><ion-icon name="trash"></ion-icon> Delete</button>
       </ion-item-options>
 
     </ion-item-sliding>
