@@ -108,13 +108,13 @@ export class ShiftService {
       });
       this.sql.get('sheetId').then(id => {
         id = id || -1;
-        this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options()).subscribe(resp => {
-          loader.dismiss();
-          if (resp.status == 200) {
-            this.toast.showToast('Successfully exported to Sheets!');
-            this.sql.set('sheetId', resp.json().docId);
-          }
-        })
+        this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options())
+          .map(resp => resp.json())
+          .subscribe(resp => {
+            loader.dismiss();
+            this.toast.showToast(resp.message);
+            this.sql.set('sheetId', resp.docId);
+          })
       })
     }
   }
@@ -123,7 +123,7 @@ export class ShiftService {
     let headers = new Headers({
       'Content-Type': 'application/json'
     });
-    return new RequestOptions({headers: headers});
+    return new RequestOptions({ headers: headers });
   }
 
   shiftItem(item) {
