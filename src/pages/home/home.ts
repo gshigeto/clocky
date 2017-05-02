@@ -10,10 +10,10 @@ import { Google, ShiftService } from '../../providers';
 })
 export class HomePage {
 
-  constructor(public nav: NavController, public google: Google, public shift: ShiftService, public alertCtrl: AlertController) {}
+  constructor(public nav: NavController, public google: Google, public shift: ShiftService, public alertCtrl: AlertController) { }
 
   public navigate(page: string) {
-    switch(page) {
+    switch (page) {
       case 'home':
         this.nav.setRoot(HomePage);
         break;

@@ -9,7 +9,7 @@
       </button>
     </ion-buttons>
     <ion-title>
-      Clocky
+      The Clocky
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (tap)="navigate('history')">
@@ -20,8 +20,12 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="!shift.clockedIn" class="center"><h1>Clocked OUT</h1></div>
-  <div *ngIf="shift.clockedIn" class="center"><h1>Clocked IN</h1></div>
+  <div *ngIf="!shift.clockedIn" class="center">
+    <h1>Clocked OUT</h1>
+  </div>
+  <div *ngIf="shift.clockedIn" class="center">
+    <h1>Clocked IN</h1>
+  </div>
   <br>
   <div [ngClass]="{'tada': shift.clockedIn, 'rubberBand': !shift.clockedIn}" class="animated center button-wrap">
     <button *ngIf="!shift.clockedIn" (tap)="shift.toggle()" ion-button color="secondary">Clock In</button>
