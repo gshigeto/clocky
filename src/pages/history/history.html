@@ -19,10 +19,10 @@
 
 
 <ion-content>
-  <div *ngIf="shifts.length === 0" text-center>
+  <div *ngIf="shifts.length === 0 && !loading" text-center>
     <p>Get started by clocking in!</p>
   </div>
-  <ion-list *ngIf="shifts.length > 0">
+  <ion-list [ngClass]="{'fadeInUp': !loading, 'hide': loading}" class="animated" *ngIf="shifts.length > 0 && !loading">
     <ion-item-sliding #slidingItem *ngFor="let shift of shifts">
 
       <ion-item>
