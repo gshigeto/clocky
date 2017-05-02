@@ -1,4 +1,4 @@
-import { NavController, AlertController, ItemSliding } from 'ionic-angular';
+import { NavController, AlertController, ItemSliding, LoadingController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { Sql, ShiftService } from '../../providers'
 import { Shift } from '../../models'
@@ -16,16 +16,33 @@ import { Shift } from '../../models'
 export class HistoryPage {
 
   shifts: Shift[];
-  constructor(public sql: Sql, nav: NavController, public shift: ShiftService, public alertCtrl: AlertController) {
+  loading: boolean = false;
+  constructor(
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public nav: NavController,
+    public shift: ShiftService,
+    public sql: Sql
+  ) {
     this.shifts = [];
   }
 
   ionViewWillEnter() {
+    this.loading = true;
+    let loader = this.loadingCtrl.create({
+      content: "Loading Timesheet"
+    });
+    loader.present();
     this.sql.query(`SELECT * FROM shift`).then((response) => {
       for (let i = 0; i < response.res.rows.length; i++) {
         this.shifts.push(this.historyItem(response.res.rows.item(i)))
       }
+    }).then(_ => {
       this.shifts = this.shifts.reverse();
+      setTimeout(_ => {
+        this.loading = false;
+        loader.dismiss();
+      }, 500);
     });
   }
 
