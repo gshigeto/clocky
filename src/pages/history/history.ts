@@ -25,6 +25,7 @@ export class HistoryPage {
       for (let i = 0; i < response.res.rows.length; i++) {
         this.shifts.push(this.historyItem(response.res.rows.item(i)))
       }
+      this.shifts = this.shifts.reverse();
     });
   }
 
