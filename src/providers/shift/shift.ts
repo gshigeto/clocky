@@ -109,11 +109,11 @@ export class ShiftService {
       this.sql.get('sheetId').then(id => {
         id = id || -1;
         this.http.post(`${API_BASE_URL}/export/${id}`, body, this.options())
-          .map(resp => resp.json())
           .subscribe(resp => {
+            let response = resp.json();
             loader.dismiss();
-            this.toast.showToast(resp.message);
-            this.sql.set('sheetId', resp.docId);
+            this.toast.showToast(response.message);
+            this.sql.set('sheetId', response.docId);
           })
       })
     }
